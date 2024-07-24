@@ -13,9 +13,12 @@ router.post('/create', async (req,res)=>{
               });
         }
         await connectTODb();
+        const checkResult = async(link) =>{ return await Url.findOne({shortUrl: link}) };
+        const short = Math.random().toString(36).substring(7);
+        if(!checkResult(short)) checkResult(short);
         const urlData = {
             url,
-            shortUrl : Math.random().toString(36).substring(7),
+            shortUrl : short,
         }
         const link = await Url.create(urlData);
         res.status(201).json({
